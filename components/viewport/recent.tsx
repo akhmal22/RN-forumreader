@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Avatar, Button, Card, Title, Paragraph, Appbar } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+import PaperCustom from '../rnp-custom/paper';
 
 const styles = StyleSheet.create({
     bottom: {
@@ -14,26 +15,17 @@ const styles = StyleSheet.create({
 
 const Header = () => (
     <Appbar.Header>
-       <Appbar.Content title="Recent Viewed" />
+       <Appbar.Content title="Bookmarked" />
     </Appbar.Header>
 );
 
-export default function RecentViewport(){
+export default function AlbumViewport(){
     return (
         <React.Fragment>
             <Header/>
-            <Card>
-                <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
-                <Card.Content>
-                    <Title>Card title</Title>
-                    <Paragraph>Card content</Paragraph>
-                </Card.Content>
-                <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-                <Card.Actions>
-                    <Button>Cancel</Button>
-                    <Button>Ok</Button>
-                </Card.Actions>
-            </Card>
+            <PaperCustom/>
+            <PaperCustom/>
+            <PaperCustom/>
         </React.Fragment>
     );
 }
