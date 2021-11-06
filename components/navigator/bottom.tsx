@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { BottomNavigation, Text, Button } from 'react-native-paper';
 import Bottom from './bottom';
-import MusicViewport from '../viewport/music';
-import AlbumViewport from '../viewport/album';
+import HomeViewport from '../viewport/home';
+import SubscribedViewport from '../viewport/subscribed';
 import RecentViewport from '../viewport/recent';
 
 const MainControl = () => {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'music', title: 'Music', icon: 'music' },
-        { key: 'albums', title: 'Albums', icon: 'album' },
+        { key: 'home', title: 'Home', icon: 'home' },
+        { key: 'subscription', title: 'Subscribed', icon: 'folder-multiple' },
         { key: 'recents', title: 'Recents', icon: 'history' },
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        music: MusicViewport,
-        albums: AlbumViewport,
+        home: HomeViewport,
+        subscription: SubscribedViewport,
         recents: RecentViewport,
     });
 

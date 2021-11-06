@@ -11,24 +11,15 @@ const styles = StyleSheet.create({
         elevation: 4,
         marginTop: 20,
     },
-    footer: {
+    container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 5
     },
-    heading: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginLeft: 20,
-        marginRight: 20,
-        marginBottom: 5,
-    },
-    replying: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginRight: 40,
+    forumName: {
+        marginRight: 40
     },
     view: {
         marginRight: 10
@@ -62,46 +53,63 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexShrink: 1,
     },
-    comment: {
+    titleThumbnail: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginLeft: 20,
-        marginRight: 20,
-        marginBottom: 5
     },
 });
 
-export default function PaperCustom (){
+export default function Threads (){
     return(
         <React.Fragment>
             <Surface style={styles.surface}>
                 <View style={styles.viewRoot}>
-                    <View style={styles.heading}>
+                    <View style={styles.container}>
                         <View
-                            style={styles.replying}
+                            style={styles.forumName}
                         >
-                            <Text>>>1290441024
-                            >>1290441025
-                            >>1290441026
-                            >>1290441026
-                            >>1290441026</Text>
+                            <Text>/b/</Text>
                         </View>
                         <View
                             style={styles.view}
                         >
                             <Text>Anonymous</Text>
                         </View>
+                        <View
+                            style={styles.lastView}
+                        >
+                            <Text>12m</Text>
+                        </View>
                     </View>
-                    <View style={styles.comment}>
-                        <Subheading>We don't lose wars, chang.
-Our loving kikes forfeit them for us.
-If you don't believe that, come on over and try to finally knock down the big dog, and we'll show what it looks like when we're not shackled by shekels.</Subheading>
+                    <View style={styles.titleThumbnail}>
+                        <View style={styles.titleSubtitle}>
+                            <View
+                                style={styles.title}
+                            >
+                                <Headline>Title can wrapped down</Headline>
+                            </View>
+                            <View
+                                style={styles.subtitle}
+                            >
+                                <Subheading>Subtitle also can wrapped down down down</Subheading>
+                            </View>
+                        </View>
+                        <View
+                            style={styles.view}
+                        >
+                            <LeftContent/>
+                        </View>
                     </View>
-                    <View style={styles.footer}>
+                    <View style={styles.container}>
                         <View
                             style={styles.replies}
                         >
                             <Text>100 Replies</Text>
+                        </View>
+                        <View
+                            style={styles.images}
+                        >
+                            <Text>85 Images</Text>
                         </View>
                         <IconButton
                             icon="view-headline"
