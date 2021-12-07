@@ -59,17 +59,12 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function ThreadThumbs (props: any){
+export default function ThreadStarter (props: any){
     return(
         <React.Fragment>
             <Surface style={styles.surface}>
                 <View style={styles.viewRoot}>
                     <View style={styles.container}>
-                        <View
-                            style={styles.forumName}
-                        >
-                            <Text>/b/</Text>
-                        </View>
                         <View
                             style={styles.view}
                         >
@@ -83,23 +78,23 @@ export default function ThreadThumbs (props: any){
                     </View>
                     <View style={styles.titleThumbnail}>
                         <View style={styles.titleSubtitle}>
-                            <TouchableOpacity
+                            <View
                                 style={styles.title}
-                                onPress={() => {props.index[1](2);}}
                             >
                                 <Headline>Title can wrapped down</Headline>
-                            </TouchableOpacity>
+                            </View>
                             <View
                                 style={styles.subtitle}
                             >
                                 <Subheading>Subtitle also can wrapped down down down</Subheading>
                             </View>
                         </View>
-                        <View
+                        <TouchableOpacity
                             style={styles.view}
+                            onPress={() => {props.index[1](3);}}
                         >
                             <LeftContent/>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.container}>
                         <View

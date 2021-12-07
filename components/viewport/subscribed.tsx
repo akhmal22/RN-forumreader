@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Card, Title, Paragraph, Appbar, Switch } from 'react-native-paper';
-import { SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { ScrollView } from 'react-native';
 import Threads from '../rnp-custom/threadthumbs';
 
 const Header = () => (
@@ -12,18 +12,16 @@ const Header = () => (
 
 export default function SubscribedViewport(){
     return (
-        <SafeAreaView>
+        <React.Fragment>
             <Header/>
             <ScrollView>
-                <React.Fragment>
-                    <Threads/>
-                    <Threads/>
-                    <Threads/>
-                    <Threads/>
-                    <Threads/>
-                </React.Fragment>
+                <Threads/>
+                <Threads/>
+                <Threads/>
+                <Threads/>
+                <Threads/>
             </ScrollView>
-        </SafeAreaView>
+        </React.Fragment>
     );
 }
 

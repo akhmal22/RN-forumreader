@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Avatar, Button, Card, Title, Paragraph, Appbar } from 'react-native-paper';
-import { StyleSheet, SafeAreaView, ScrollView, StatusBar, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
 import Replies from '../rnp-custom/replies';
 
@@ -12,15 +12,13 @@ const Header = () => (
 
 export default function RecentViewport(){
     return (
-        <SafeAreaView>
+        <React.Fragment>
             <Header/>
             <ScrollView>
-                <React.Fragment>
-                    <Replies/>
-                    <Replies/>
-                    <Replies/>
-                </React.Fragment>
+                <Replies/>
+                <Replies/>
+                <Replies/>
             </ScrollView>
-        </SafeAreaView>
+        </React.Fragment>
     );
 }

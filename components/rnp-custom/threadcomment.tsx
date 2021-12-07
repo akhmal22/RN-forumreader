@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Surface, Text, Headline, Subheading, Avatar, IconButton } from 'react-native-paper';
-import { StyleSheet, TouchableWithoutFeedback, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" size={40} />
 
 const styles = StyleSheet.create({
@@ -59,17 +59,12 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function ThreadThumbs (props: any){
+export default function ThreadComment (){
     return(
         <React.Fragment>
             <Surface style={styles.surface}>
                 <View style={styles.viewRoot}>
                     <View style={styles.container}>
-                        <View
-                            style={styles.forumName}
-                        >
-                            <Text>/b/</Text>
-                        </View>
                         <View
                             style={styles.view}
                         >
@@ -83,12 +78,6 @@ export default function ThreadThumbs (props: any){
                     </View>
                     <View style={styles.titleThumbnail}>
                         <View style={styles.titleSubtitle}>
-                            <TouchableOpacity
-                                style={styles.title}
-                                onPress={() => {props.index[1](2);}}
-                            >
-                                <Headline>Title can wrapped down</Headline>
-                            </TouchableOpacity>
                             <View
                                 style={styles.subtitle}
                             >
@@ -106,11 +95,6 @@ export default function ThreadThumbs (props: any){
                             style={styles.replies}
                         >
                             <Text>100 Replies</Text>
-                        </View>
-                        <View
-                            style={styles.images}
-                        >
-                            <Text>85 Images</Text>
                         </View>
                         <IconButton
                             icon="view-headline"
