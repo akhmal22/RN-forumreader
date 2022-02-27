@@ -1,24 +1,40 @@
 import * as React from 'react';
-import { Avatar, Button, Card, Title, Paragraph, Appbar } from 'react-native-paper';
+import { Button, Card, Title, Paragraph, Appbar, Switch } from 'react-native-paper';
 import { ScrollView } from 'react-native';
-const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
-import Replies from '../rnp-custom/replies';
+import ThreadThumbs from '../rnp-custom/threadthumbs';
+import ThreadViewport from './thread';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Header = () => (
-    <Appbar.Header>
-       <Appbar.Content title="Recently Viewed" />
-    </Appbar.Header>
-);
+const Stack = createNativeStackNavigator();
 
-export default function RecentViewport(){
+const Recents = ({ navigation }) => {
     return (
         <React.Fragment>
-            <Header/>
             <ScrollView>
-                <Replies/>
-                <Replies/>
-                <Replies/>
+                <ThreadThumbs navigator={navigation}/>
+                <ThreadThumbs navigator={navigation}/>
+                <ThreadThumbs navigator={navigation}/>
+                <ThreadThumbs navigator={navigation}/>
+                <ThreadThumbs navigator={navigation}/>
             </ScrollView>
         </React.Fragment>
+    );
+}
+
+export default function RecentViewport(){
+    return(
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name="Recents"
+                    component={Recents}
+                />
+                <Stack.Screen
+                    name="Thread"
+                    component={ThreadViewport}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }

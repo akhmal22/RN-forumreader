@@ -5,13 +5,11 @@ import ThreadStarter from '../rnp-custom/threadstarter';
 import ThreadComment from '../rnp-custom/threadcomment';
 import Header from '../navigator/header';
 
-export default function ThreadViewport(props: any){
-
+export default function ThreadViewport(){
     return (
         <React.Fragment>
-            <Header header="head" title="Thread Name" index={props.index}/>
             <ScrollView>
-                <ThreadStarter index={props.index}/>
+                <ThreadStarter/>
                 <ThreadComment/>
                 <ThreadComment/>
                 <ThreadComment/>

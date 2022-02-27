@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function ThreadStarter (props: any){
+export default function ThreadStarter (){
     return(
         <React.Fragment>
             <Surface style={styles.surface}>
@@ -91,7 +91,6 @@ export default function ThreadStarter (props: any){
                         </View>
                         <TouchableOpacity
                             style={styles.view}
-                            onPress={() => {props.index[1](3);}}
                         >
                             <LeftContent/>
                         </TouchableOpacity>

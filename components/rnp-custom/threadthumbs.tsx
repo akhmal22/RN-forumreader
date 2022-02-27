@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function ThreadThumbs (props: any){
+export default function ThreadThumbs(props: any){
     return(
         <React.Fragment>
             <Surface style={styles.surface}>
@@ -68,31 +68,31 @@ export default function ThreadThumbs (props: any){
                         <View
                             style={styles.forumName}
                         >
-                            <Text>/b/</Text>
+                            <Text>{props.no}</Text>
                         </View>
                         <View
                             style={styles.view}
                         >
-                            <Text>Anonymous</Text>
+                            <Text>{props.name}</Text>
                         </View>
                         <View
                             style={styles.lastView}
                         >
-                            <Text>12m</Text>
+                            <Text>{props.time}</Text>
                         </View>
                     </View>
                     <View style={styles.titleThumbnail}>
                         <View style={styles.titleSubtitle}>
                             <TouchableOpacity
                                 style={styles.title}
-                                onPress={() => {props.index[1](2);}}
+                                onPress={() => {props.navigator.navigate('Thread')}}
                             >
-                                <Headline>Title can wrapped down</Headline>
+                                <Headline>{props.sub ? props.sub : 'no subject'}</Headline>
                             </TouchableOpacity>
                             <View
                                 style={styles.subtitle}
                             >
-                                <Subheading>Subtitle also can wrapped down down down</Subheading>
+                                <Subheading>{props.com}</Subheading>
                             </View>
                         </View>
                         <View
@@ -105,12 +105,12 @@ export default function ThreadThumbs (props: any){
                         <View
                             style={styles.replies}
                         >
-                            <Text>100 Replies</Text>
+                            <Text>{props.replies} replies</Text>
                         </View>
                         <View
                             style={styles.images}
                         >
-                            <Text>85 Images</Text>
+                            <Text>{props.images} images</Text>
                         </View>
                         <IconButton
                             icon="view-headline"
