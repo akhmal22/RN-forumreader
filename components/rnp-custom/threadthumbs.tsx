@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Surface, Text, Headline, Subheading, Avatar, IconButton } from 'react-native-paper';
 import { StyleSheet, TouchableWithoutFeedback, View, TouchableOpacity } from 'react-native';
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" size={40} />
+import HTMLView from 'react-native-htmlview';
 
 const styles = StyleSheet.create({
     surface: {
@@ -60,6 +61,22 @@ const styles = StyleSheet.create({
 });
 
 export default function ThreadThumbs(props: any){
+    const [ timeDiff, setTimeDiff ] = React.useState<string>(null);
+
+    React.useEffect(() => {
+        const diff = Math.floor(Date.now() / 1000) - Math.floor(props.time);
+
+        if(diff<3600){
+            setTimeDiff("<1h");
+        }else if(diff>=3600 && diff<86400){
+            setTimeDiff(Math.floor(24-((86400-diff)/3600)) + "h");
+        }else{
+            setTimeDiff(">1d");
+        }
+    }, []);
+
+    const htmlContent = `<div>${props.com}</div>`;
+
     return(
         <React.Fragment>
             <Surface style={styles.surface}>
@@ -78,7 +95,7 @@ export default function ThreadThumbs(props: any){
                         <View
                             style={styles.lastView}
                         >
-                            <Text>{props.time}</Text>
+                            <Text>{timeDiff}</Text>
                         </View>
                     </View>
                     <View style={styles.titleThumbnail}>
@@ -92,7 +109,10 @@ export default function ThreadThumbs(props: any){
                             <View
                                 style={styles.subtitle}
                             >
-                                <Subheading>{props.com}</Subheading>
+                                <HTMLView
+                                    value={htmlContent}
+                                    stylesheet={styles.subtitle}
+                                />
                             </View>
                         </View>
                         <View

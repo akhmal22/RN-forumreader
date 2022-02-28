@@ -11,7 +11,7 @@ import Header from '../navigator/header';
 
 const Stack = createNativeStackNavigator();
 
-const storeData = async (value: Any, storage_key: String) => {
+const storeData = async (value: Any, storage_key: string) => {
     try {
         if(typeof value !== "string"){
             const jsonValue = JSON.stringify(value);
@@ -30,7 +30,7 @@ const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const fetchData = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: String) => {
+const fetchData = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: string) => {
     await fetch(url)
     .then(res => res.json())
     .then(
@@ -49,7 +49,7 @@ const fetchData = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: S
     )
 }
 
-const fetchDataIfModifiedSince = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: String, lastModified: String) => {
+const fetchDataIfModifiedSince = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: string, lastModified: string) => {
 
     await fetch(url,{
         headers: {
@@ -99,7 +99,6 @@ const Home = ({ navigation }) => {
     const [refreshing, setRefreshing] = React.useState(false);
 
     React.useEffect(() => {
-        //fetchData(setBoards, setIsLoaded, setLoadErr, "https://a.4cdn.org/boards.json");
         getData("board_storage", true)
         .then(
             (result) => {

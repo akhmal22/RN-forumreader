@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ThreadThumbs from '../rnp-custom/threadthumbs';
 import Header from '../navigator/header';
 
-const storeData = async (value: Any, storage_key: String) => {
+const storeData = async (value: Any, storage_key: string) => {
     try {
         if(typeof value !== "string"){
             const jsonValue = JSON.stringify(value);
@@ -24,7 +24,7 @@ const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const fetchData = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: String) => {
+const fetchData = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: string, board: string) => {
     await fetch(url)
     .then(res => res.json())
     .then(
@@ -32,9 +32,10 @@ const fetchData = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: S
             const d = new Date();
             loaded(true);
             data(result);
-            //storeData(result, "thread_storage");
+            storeData(result, board+"_storage");
             time(d.toUTCString());
-            //storeData(d.toUTCString(), "thread_time");
+            storeData(d.toUTCString(), board+"_time");
+            console.log("fetched, last modified: "+d.toUTCString());
         },
         (error) => {
             loaded(true);
@@ -43,7 +44,7 @@ const fetchData = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: S
     )
 }
 
-const fetchDataIfModifiedSince = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: String, lastModified: String) => {
+const fetchDataIfModifiedSince = async (data: Any, loaded: Any, loadErr: Any, time: Any, url: string, lastModified: string, board: string) => {
 
     await fetch(url,{
         headers: {
@@ -54,17 +55,18 @@ const fetchDataIfModifiedSince = async (data: Any, loaded: Any, loadErr: Any, ti
     .then(res => res.json())
     .then(
         (result) => {
-            console.log("modified");
             const d = new Date();
             loaded(true);
             data(result);
-            storeData(result, "thread_storage");
+            storeData(result, board+"_storage");
             time(d.toUTCString());
-            storeData(d.toUTCString(), "thread_time");
+            storeData(d.toUTCString(), board+"_time");
+            console.log("modified, last modified: "+d.toUTCString());
         },
         (error) => {
             loaded(true);
-            console.log("not modified");
+            console.log(error);
+            console.log("not modified, last modified: "+lastModified);
         }
     )
 }
@@ -93,12 +95,62 @@ export default function BoardViewport({ navigation, route }){
     const [refreshing, setRefreshing] = React.useState(false);
 
     React.useEffect(() => {
-        fetchData(setThreads, setIsLoaded, setLoadErr, setIms, "https://a.4cdn.org/"+ route.params.board +"/1.json");
+        //fetchData(setThreads, setIsLoaded, setLoadErr, setIms, "https://a.4cdn.org/"+ route.params.board +"/1.json", route.params.board);
+        getData(route.params.board+"_storage", true)
+        .then(
+            (result) => {
+                if(result==null){
+                    console.log("null");
+                    fetchData(setThreads, setIsLoaded, setLoadErr, setIms, "https://a.4cdn.org/"+ route.params.board +"/1.json", route.params.board);
+                }else{
+                    console.log("not null");
+                    setIsLoaded(true);
+                    setThreads(result);
+                    getData(route.params.board+"_time", false)
+                    .then(
+                        (res) => {
+                            setIms(res);
+                        }
+                    )
+                }
+            },
+            (error) => {
+                console.log("err");
+                setIsLoaded(true);
+                setLoadErr(error);
+            }
+        );
     }, []);
 
     const onRefresh = () => {
         setRefreshing(true);
-        wait(2000).then(() => setRefreshing(false));
+        getData(route.params.board+"_storage", true)
+        .then(
+            (result) => {
+                console.log("refresh");
+                if(result==null){
+                    console.log("null");
+                    fetchData(setThreads, setIsLoaded, setLoadErr, setIms, "https://a.4cdn.org/"+ route.params.board +"/1.json", route.params.board);
+                }else{
+                    console.log("not null");
+                    setIsLoaded(true);
+                    setThreads(result);
+                    getData(route.params.board+"_time", false)
+                    .then(
+                        (res) => {
+                            setIms(res);
+                            fetchDataIfModifiedSince(setThreads, setIsLoaded, setLoadErr, setIms, "https://a.4cdn.org/"+ route.params.board +"/1.json", res, route.params.board);
+                        }
+                    )
+                }
+            },
+            (error) => {
+                console.log("err");
+                setIsLoaded(true);
+                setLoadErr(error);
+            }
+        )
+        .then(() => setRefreshing(false));
     }
 
     if(loadErr){
