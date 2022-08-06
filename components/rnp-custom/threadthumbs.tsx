@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Surface, Text, Headline, Subheading, Avatar, IconButton } from 'react-native-paper';
+import { Surface, Text, Headline, Subheading, Avatar, IconButton, DefaultTheme, DarkTheme, Provider as PaperProvider } from 'react-native-paper';
 import { StyleSheet, TouchableWithoutFeedback, View, TouchableOpacity } from 'react-native';
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" size={40} />
 import HTMLView from 'react-native-htmlview';
@@ -60,6 +60,14 @@ const styles = StyleSheet.create({
     },
 });
 
+const dark = {
+    ...DarkTheme
+};
+
+const light = {
+    ...DefaultTheme
+}
+
 export default function ThreadThumbs(props: any){
     const [ timeDiff, setTimeDiff ] = React.useState<string>(null);
 
@@ -77,69 +85,135 @@ export default function ThreadThumbs(props: any){
 
     const htmlContent = `<div>${props.com}</div>`;
 
-    return(
-        <React.Fragment>
-            <Surface style={styles.surface}>
-                <View style={styles.viewRoot}>
-                    <View style={styles.container}>
-                        <View
-                            style={styles.forumName}
-                        >
-                            <Text>{props.no}</Text>
-                        </View>
-                        <View
-                            style={styles.view}
-                        >
-                            <Text>{props.name}</Text>
-                        </View>
-                        <View
-                            style={styles.lastView}
-                        >
-                            <Text>{timeDiff}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.titleThumbnail}>
-                        <View style={styles.titleSubtitle}>
-                            <TouchableOpacity
-                                style={styles.title}
-                                onPress={() => {props.navigator.navigate('Thread')}}
-                            >
-                                <Headline>{props.sub ? props.sub : 'no subject'}</Headline>
-                            </TouchableOpacity>
+    if(!props.isDark){
+        return(
+            <PaperProvider theme={light}>
+                <Surface style={styles.surface}>
+                    <View style={styles.viewRoot}>
+                        <View style={styles.container}>
                             <View
-                                style={styles.subtitle}
+                                style={styles.forumName}
                             >
-                                <HTMLView
-                                    value={htmlContent}
-                                    stylesheet={styles.subtitle}
-                                />
+                                <Text>{props.no}</Text>
+                            </View>
+                            <View
+                                style={styles.view}
+                            >
+                                <Text>{props.name}</Text>
+                            </View>
+                            <View
+                                style={styles.lastView}
+                            >
+                                <Text>{timeDiff}</Text>
                             </View>
                         </View>
-                        <View
-                            style={styles.view}
-                        >
-                            <LeftContent/>
+                        <View style={styles.titleThumbnail}>
+                            <View style={styles.titleSubtitle}>
+                                <TouchableOpacity
+                                    style={styles.title}
+                                    onPress={() => {props.navigator.navigate('Thread')}}
+                                >
+                                    <Headline>{props.sub ? props.sub : 'no subject'}</Headline>
+                                </TouchableOpacity>
+                                <View
+                                    style={styles.subtitle}
+                                >
+                                    <HTMLView
+                                        value={htmlContent}
+                                    />
+                                </View>
+                            </View>
+                            <View
+                                style={styles.view}
+                            >
+                                <LeftContent/>
+                            </View>
+                        </View>
+                        <View style={styles.container}>
+                            <View
+                                style={styles.replies}
+                            >
+                                <Text>{props.replies} replies</Text>
+                            </View>
+                            <View
+                                style={styles.images}
+                            >
+                                <Text>{props.images} images</Text>
+                            </View>
+                            <IconButton
+                                icon="view-headline"
+                                size={20}
+                                onPress={() => console.log('Pressed')}
+                            />
                         </View>
                     </View>
-                    <View style={styles.container}>
-                        <View
-                            style={styles.replies}
-                        >
-                            <Text>{props.replies} replies</Text>
+                </Surface>
+            </PaperProvider>
+        );
+    }else{
+        return(
+            <PaperProvider theme={dark}>
+                <Surface style={styles.surface}>
+                    <View style={styles.viewRoot}>
+                        <View style={styles.container}>
+                            <View
+                                style={styles.forumName}
+                            >
+                                <Text>{props.no}</Text>
+                            </View>
+                            <View
+                                style={styles.view}
+                            >
+                                <Text>{props.name}</Text>
+                            </View>
+                            <View
+                                style={styles.lastView}
+                            >
+                                <Text>{timeDiff}</Text>
+                            </View>
                         </View>
-                        <View
-                            style={styles.images}
-                        >
-                            <Text>{props.images} images</Text>
+                        <View style={styles.titleThumbnail}>
+                            <View style={styles.titleSubtitle}>
+                                <TouchableOpacity
+                                    style={styles.title}
+                                    onPress={() => {props.navigator.navigate('Thread')}}
+                                >
+                                    <Headline>{props.sub ? props.sub : 'no subject'}</Headline>
+                                </TouchableOpacity>
+                                <View
+                                    style={styles.subtitle}
+                                >
+                                    <HTMLView
+                                        value={htmlContent}
+                                    />
+                                </View>
+                            </View>
+                            <View
+                                style={styles.view}
+                            >
+                                <LeftContent/>
+                            </View>
                         </View>
-                        <IconButton
-                            icon="view-headline"
-                            size={20}
-                            onPress={() => console.log('Pressed')}
-                        />
+                        <View style={styles.container}>
+                            <View
+                                style={styles.replies}
+                            >
+                                <Text>{props.replies} replies</Text>
+                            </View>
+                            <View
+                                style={styles.images}
+                            >
+                                <Text>{props.images} images</Text>
+                            </View>
+                            <IconButton
+                                icon="view-headline"
+                                size={20}
+                                onPress={() => console.log('Pressed')}
+                            />
+                        </View>
                     </View>
-                </View>
-            </Surface>
-        </React.Fragment>
-    );
+                </Surface>
+            </PaperProvider>
+        );
+    }
 }

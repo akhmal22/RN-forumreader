@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { BottomNavigation, Text, Button, Appbar, List, Card, Title, Paragraph, Snackbar } from 'react-native-paper';
-import { StyleSheet, SafeAreaView, ScrollView, StatusBar, RefreshControl } from 'react-native';
+import { BottomNavigation, Text, Button, Appbar, List, Card, Title, Paragraph, Snackbar, DefaultTheme, DarkTheme, Provider as PaperProvider } from 'react-native-paper';
+import { StyleSheet, SafeAreaView, ScrollView, StatusBar, RefreshControl, Appearance } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -91,12 +91,21 @@ const getData = async (storage_key: String, isJson: boolean) => {
     }
 }
 
+const dark = {
+    ...DarkTheme
+};
+
+const light = {
+    ...DefaultTheme
+}
+
 const Home = ({ navigation }) => {
     const [ boards, setBoards ] = React.useState<Any>(null);
     const [ isLoaded, setIsLoaded ] = React.useState(false);
-    const [ loadErr, setLoadErr ] = React.useState<any>(null);
+    const [ loadErr, setLoadErr ] = React.useState<Any>(null);
     const [ ims, setIms ] = React.useState<String>(null);
     const [refreshing, setRefreshing] = React.useState(false);
+    const [ isDark, setIsDark ] = React.useState(false);
 
     React.useEffect(() => {
         getData("board_storage", true)
@@ -123,6 +132,10 @@ const Home = ({ navigation }) => {
                 setLoadErr(error);
             }
         );
+
+        if(Appearance.getColorScheme() === 'dark'){
+            setIsDark(true);
+        }
     }, []);
 
     const onRefresh = () => {
@@ -156,6 +169,8 @@ const Home = ({ navigation }) => {
     }
 
     console.log("outside: "+ims);
+
+    console.log("outside: "+isDark);
 
     if(loadErr){
         return (
@@ -221,11 +236,12 @@ const Home = ({ navigation }) => {
                 >
                     {boards.boards.map((board, index) => (
                         <List.Item
+                            theme={isDark ? dark : light}
                             key={index}
                             title={board.title}
                             description={board.board}
                             onPress={() => {
-                                navigation.navigate('Board', {board: board.board, title: board.title});
+                                navigation.navigate('Board', {board: board.board, title: board.title, isDark: isDark});
                             }}
                         />
                     ))}
@@ -236,27 +252,58 @@ const Home = ({ navigation }) => {
 }
 
 export default function HomeViewport(){
-    return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen
-                    name="Home"
-                    component={Home}
-                />
-                <Stack.Screen
-                    name="Board"
-                    component={BoardViewport}
-                    options={({ route }) => ({ title: route.params.title })}
-                />
-                <Stack.Screen
-                    name="Thread"
-                    component={ThreadViewport}
-                />
-                <Stack.Screen
-                    name="Image"
-                    component={ImageViewport}
-                />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+    if(Appearance.getColorScheme() === 'dark'){
+        return (
+            <PaperProvider>
+                <NavigationContainer theme={dark}>
+                    <Stack.Navigator theme={dark}>
+                        <Stack.Screen
+                            name="Home"
+                            component={Home}
+                            options={{headerStyle: { backgroundColor: '#121212' }}}
+                        />
+                        <Stack.Screen
+                            name="Board"
+                            component={BoardViewport}
+                            options={({ route }) => ({ title: route.params.title })}
+                        />
+                        <Stack.Screen
+                            name="Thread"
+                            component={ThreadViewport}
+                        />
+                        <Stack.Screen
+                            name="Image"
+                            component={ImageViewport}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </PaperProvider>
+        );
+    }else{
+        return (
+            <PaperProvider>
+                <NavigationContainer>
+                    <Stack.Navigator>
+                        <Stack.Screen
+                            name="Home"
+                            component={Home}
+                        />
+                        <Stack.Screen
+                            name="Board"
+                            component={BoardViewport}
+                            options={({ route }) => ({ title: route.params.title })}
+                        />
+                        <Stack.Screen
+                            name="Thread"
+                            component={ThreadViewport}
+                        />
+                        <Stack.Screen
+                            name="Image"
+                            component={ImageViewport}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </PaperProvider>
+        );
+    }
 }
